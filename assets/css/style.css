@@ -364,3 +364,21 @@ float: left;
 	float: right;
 	font-weight: bold;
 }
+/** Paginação **/
+.paginate {
+	display: flex;
+	width: 100%;
+	padding-top: 20px;
+}
+.paginate a {
+	display: inline-block;
+	border: 1px solid #AAA;
+	padding: .4em .9em;
+	margin-right: .2em;
+	text-decoration: none;
+	color: initial;
+}
+.paginate a:hover,
+.paginate .activated {
+	border-color: initial;
+}

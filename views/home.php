@@ -24,4 +24,18 @@
         <?php endif ?>
 
     <?php endforeach ?>
+
+    <?php if ($numberOfPages > 1):?>
+        <ul class="paginate list-unstyled">
+            <?php for ($i = 1; $i <= $numberOfPages; $i ++):?>
+                <li>
+                    <a 
+                     href="?p=<?=$i?>" 
+                     class="<?=$currentPage==$i?'activated':''?>">
+                        <?=$i?>
+                    </a>
+                </li>
+            <?php endfor?>
+        </ul>
+    <?php endif?>
 </div>
