@@ -2,7 +2,7 @@
 
 class Products extends model
 {
-    public function getList()
+    public function getList($offset = 0, $limit = 3)
     {
         $dados = [];
 
@@ -10,6 +10,9 @@ class Products extends model
         (SELECT b.name FROM brands b WHERE b.id = p.id_brand) as brand_name,
         (SELECT c.name FROM categories c WHERE c.id = p.id_category) as category_name
         FROM products p';
+
+        $sql .= " LIMIT {$limit} OFFSET {$offset}";
+
         $sql = $this->db->query($sql);
 
         if ($sql->rowCount() > 0)
@@ -23,6 +26,14 @@ class Products extends model
         }
 
         return $dados;
+    }
+
+    public function getTotal()
+    {
+        $sql = 'SELECT COUNT(*) FROM products';
+        $sql = $this->db->query($sql);
+        $count = $sql->fetch();
+        return $count[0];
     }
 
     public function getImageByProductId($id)
