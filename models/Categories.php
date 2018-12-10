@@ -62,4 +62,12 @@ class Categories extends model
 
         return array_reverse($dados);
     }
+
+    public function getName($id)
+    {
+        $sql = 'SELECT name FROM categories WHERE id = :id';
+        $sql = $this->db->prepare($sql);
+        $sql->execute([':id' => $id]);
+        return $sql->rowCount() ? $sql->fetch()[0] : null;
+    }
 }
