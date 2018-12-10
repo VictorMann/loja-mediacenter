@@ -3,11 +3,13 @@ class homeController extends controller {
 
 	private $user;
 
-    public function __construct() {
+    public function __construct() 
+    {
         parent::__construct();
     }
 
-    public function index() {
+    public function index() 
+    {
         $dados = array();
 
         $limit = 3;
@@ -19,13 +21,14 @@ class homeController extends controller {
         $offset = $currentPage * $limit - $limit;
 
         $products = new Products;
+        $categories = new Categories;
+
         $dados['list'] = $products->getList($offset, $limit);
         $dados['totalItems'] = $products->getTotal();
         $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
         $dados['currentPage'] = $currentPage;
-        // print_r($dados);exit;
+        $dados['categorias'] = $categories->getList();
 
         $this->loadTemplate('home', $dados);
     }
-
 }
