@@ -198,7 +198,9 @@ h1 {
 	border-bottom:1px solid #E0E0E0;
 	padding-bottom:15px;
 }
-
+.dropdown-menu {
+	width: 100%;
+}
 footer {
 	padding-top:30px;
 	background-color: #F9F9F9;
