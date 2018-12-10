@@ -5,7 +5,11 @@ class categoriesController extends controller
     {
         parent::__construct();
 
+        $this->limit = 3;
+        $this->offset = 0;
+
         $this->categories = new Categories;
+        $this->products = new Products;
     }
 
 
@@ -13,19 +17,14 @@ class categoriesController extends controller
     {
         $dados = array();
 
-        $limit = 3;
-        $offset = 0;
-
         $currentPage = 1;
         if (!empty($_GET['p']) && $_GET['p'] > 0) $currentPage = (int) $_GET['p'];
 
-        $offset = $currentPage * $limit - $limit;
+        $this->offset = $currentPage * $this->limit - $this->limit;
 
-        $products = new Products;
-
-        $dados['list'] = $products->getList($offset, $limit);
-        $dados['totalItems'] = $products->getTotal();
-        $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
+        $dados['list'] = $this->products->getList($this->offset, $this->limit);
+        $dados['totalItems'] = $this->products->getTotal();
+        $dados['numberOfPages'] = ceil($dados['totalItems'] / $this->limit);
         $dados['currentPage'] = $currentPage;
         $dados['categorias'] = $this->categories->getList();
 
@@ -36,8 +35,32 @@ class categoriesController extends controller
     {
         $dados = [];
         
+        $dados['catName'] = $this->categories->getName($id);
+
+        // fail-fast
+        if (!$dados['catName'])
+        {
+            header('Location: '. BASE_URL);
+            exit;
+        }
+
+        // filter
+        $filter = ['category' => $id];
+
         $dados['categorias'] = $this->categories->getList();
         $dados['filter_category'] = $this->categories->getCategoryTree($id);
+
+        // pagination
+        $currentPage = 1;
+        if (!empty($_GET['p']) && $_GET['p'] > 0) $currentPage = (int) $_GET['p'];
+
+        $this->offset = $currentPage * $this->limit - $this->limit;
+
+        $dados['list'] = $this->products->getList($this->offset, $this->limit, $filter);
+        $dados['totalItems'] = $this->products->getTotal($filter);
+        $dados['numberOfPages'] = ceil($dados['totalItems'] / $this->limit);
+        $dados['currentPage'] = $currentPage;
+
 
         $this->loadTemplate('categories', $dados);
     }
