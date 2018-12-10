@@ -40,4 +40,26 @@ class Categories extends model
             }
         }
     }
+
+    public function getCategoryTree($id)
+    {
+        $dados = [];
+
+        do
+        {
+            $sql = 'SELECT * FROM categories WHERE id = :id';
+            $sql = $this->db->prepare($sql);
+            $sql->bindValue(':id', $id);
+            $sql->execute();
+
+            if ($sql->rowCount())
+            {
+                $dados[] = $sql->fetch(PDO::FETCH_ASSOC);
+                $id = end($dados)['sub'];
+            }
+            else break;
+        } while (true);
+
+        return array_reverse($dados);
+    }
 }
