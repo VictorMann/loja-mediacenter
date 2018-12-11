@@ -5,8 +5,11 @@
 		<title>Loja 2.0</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/bootstrap.min.css" type="text/css" />
-		<link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css" type="text/css" />
+		<link rel="stylesheet" href="<?=BASE_URL?>assets/css/bootstrap.min.css">
+		<link rel="stylesheet" href="<?=BASE_URL?>assets/css/jquery-ui.min.css">
+		<link rel="stylesheet" href="<?=BASE_URL?>assets/css/jquery-ui.structure.min.css">
+		<link rel="stylesheet" href="<?=BASE_URL?>assets/css/jquery-ui.theme.min.css">
+		<link rel="stylesheet" href="<?=BASE_URL?>assets/css/style.css">
 	</head>
 	<body>
 		<nav class="navbar topnav">
@@ -110,7 +113,31 @@
 				  	<aside>
 				  		<h1><?=$this->lang->get('FILTER')?></h1>
 				  		<div class="filterarea">
-
+								<div class="filterbox">
+									<div class="filtertitle"><?=$this->lang->get('BRANDS')?></div>
+									<div class="filtercontent">
+										...
+									</div>
+								</div>
+								<div class="filterbox">
+									<div class="filtertitle"><?=$this->lang->get('PRICE')?></div>
+									<div class="filtercontent">
+										<input type="text" id="amount" readonly>
+										<div id="slider-range"></div>
+									</div>
+								</div>
+								<div class="filterbox">
+									<div class="filtertitle"><?=$this->lang->get('RATING')?></div>
+									<div class="filtercontent">
+										...
+									</div>
+								</div>
+								<div class="filterbox">
+									<div class="filtertitle"><?=$this->lang->get('OPTIONS')?></div>
+									<div class="filtercontent">
+										...
+									</div>
+								</div>
 				  		</div>
 
 				  		<div class="widget">
@@ -159,9 +186,9 @@
 	    			<div class="row">
 						<div class="col-xs-12 col-sm-8 col-sm-offset-2 no-padding">
 							<form method="POST">
-                                <input class="subemail" name="email" placeholder="<?=$this->lang->get('SUBSCRIBETEXT')?>">
-                                <input type="submit" value="<?=$this->lang->get('SUBSCRIBEBUTTON')?>" />
-                            </form>
+								<input class="subemail" name="email" placeholder="<?=$this->lang->get('SUBSCRIBETEXT')?>">
+								<input type="submit" value="<?=$this->lang->get('SUBSCRIBEBUTTON')?>" />
+							</form>
 						</div>
 					</div>
 	    		</div>
@@ -230,9 +257,13 @@
 	    		</div>
 	    	</div>
 	    </footer>
-		<script type="text/javascript">var BASE_URL = '<?php echo BASE_URL; ?>';</script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/jquery.min.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="<?php echo BASE_URL; ?>assets/js/script.js"></script>
+		<script type="text/javascript">
+			var BASE_URL = '<?php echo BASE_URL; ?>';
+			var maxslider = <?=!empty($viewData['maxslider']) ? $viewData['maxslider'] : 100?>;
+		</script>
+		<script type="text/javascript" src="<?=BASE_URL?>assets/js/jquery.min.js"></script>
+		<script type="text/javascript" src="<?=BASE_URL?>assets/js/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="<?=BASE_URL?>assets/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="<?=BASE_URL?>assets/js/script.js"></script>
 	</body>
 </html>
