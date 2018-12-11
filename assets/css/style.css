@@ -384,3 +384,21 @@ float: left;
 .paginate .activated {
 	border-color: initial;
 }
+/** FITLER **/
+.filterbox {
+	border-bottom: 1px solid #CCC;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+.filtertitle {
+	color: #59B210;
+	font-weight: bold;
+	padding-bottom: .2em;
+	margin-bottom: .5em;
+	border-bottom: 1px solid #EEE;
+}
+/* slider */
+#amount {
+	border: none;
+	outline: none;
+}
