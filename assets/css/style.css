@@ -390,6 +390,9 @@ float: left;
 	margin-bottom: 10px;
 	padding-bottom: 10px;
 }
+.filterbox label {
+	font-weight: normal;
+}
 .filtertitle {
 	color: #59B210;
 	font-weight: bold;
