@@ -135,17 +135,26 @@
 								</div>
 								<div class="filterbox">
 									<div class="filtertitle"><?=$this->lang->get('RATING')?></div>
-									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="1"> 1</label></div>
-									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="2"> 2</label></div>
-									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="3"> 3</label></div>
-									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="4"> 4</label></div>
-									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="5"> 5</label></div>
+									<?php if (!empty($viewData['filters']['stars'])):?>
+										<?php foreach ($viewData['filters']['stars'] as $star => $qtd):?>
+											<div class="filtercontent">
+												<label>
+													<input type="checkbox" name="filter[star][]" value="<?=$star?>"> 
+													<?=$star ?: $this->lang->get('NOSTAR')?>
+												</label>
+												<span class="pull-right">(<?=$qtd?>)</span>
+											</div>
+										<?php endforeach?>
+									<?php endif?>
 								</div>
 								<div class="filterbox">
 									<div class="filtertitle"><?=$this->lang->get('SALE')?></div>
 									<div class="filtercontent">
 										<div class="filteritem">
 											<label><input type="checkbox" name="filter[sale]"> Em promoção</label>
+											<?php if (!empty($viewData['filters']['sale'])):?>
+												<span class="pull-right">(<?=$viewData['filters']['sale']?>)</span>
+											<?php endif?>
 										</div>
 									</div>
 								</div>
