@@ -116,7 +116,14 @@
 								<div class="filterbox">
 									<div class="filtertitle"><?=$this->lang->get('BRANDS')?></div>
 									<div class="filtercontent">
-										...
+										<?php if (!empty($viewData['filters']['brands'])):?>
+											<?php foreach ($viewData['filters']['brands'] as $brand):?>
+												<div class="filteritem">
+													<label><input type="checkbox" name="filter[brand][]"> <?=$brand['name']?></label>
+													<span class="pull-right">(<?=$brand['qtd']?>)</span>
+												</div>
+											<?php endforeach?>
+										<?php endif?>
 									</div>
 								</div>
 								<div class="filterbox">
@@ -128,8 +135,18 @@
 								</div>
 								<div class="filterbox">
 									<div class="filtertitle"><?=$this->lang->get('RATING')?></div>
+									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="1"> 1</label></div>
+									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="2"> 2</label></div>
+									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="3"> 3</label></div>
+									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="4"> 4</label></div>
+									<div class="filtercontent"><label><input type="checkbox" name="filter[star][]" value="5"> 5</label></div>
+								</div>
+								<div class="filterbox">
+									<div class="filtertitle"><?=$this->lang->get('SALE')?></div>
 									<div class="filtercontent">
-										...
+										<div class="filteritem">
+											<label><input type="checkbox" name="filter[sale]"> Em promoção</label>
+										</div>
 									</div>
 								</div>
 								<div class="filterbox">
@@ -259,7 +276,7 @@
 	    </footer>
 		<script type="text/javascript">
 			var BASE_URL = '<?php echo BASE_URL; ?>';
-			var maxslider = <?=!empty($viewData['maxslider']) ? $viewData['maxslider'] : 100?>;
+			var maxslider = <?=!empty($viewData['filters']['maxslider']) ? $viewData['filters']['maxslider'] : 100?>;
 		</script>
 		<script type="text/javascript" src="<?=BASE_URL?>assets/js/jquery.min.js"></script>
 		<script type="text/javascript" src="<?=BASE_URL?>assets/js/jquery-ui.min.js"></script>

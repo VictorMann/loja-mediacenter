@@ -22,12 +22,14 @@ class homeController extends controller {
 
         $products = new Products;
         $categories = new Categories;
+        $f = new Filters;
 
         $dados['list'] = $products->getList($offset, $limit);
         $dados['totalItems'] = $products->getTotal();
         $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
         $dados['currentPage'] = $currentPage;
         $dados['categorias'] = $categories->getList();
+        $dados['filters'] = $f->getFilters();
 
         $this->loadTemplate('home', $dados);
     }
