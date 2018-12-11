@@ -24,12 +24,14 @@ class homeController extends controller {
         $categories = new Categories;
         $f = new Filters;
 
-        $dados['list'] = $products->getList($offset, $limit);
-        $dados['totalItems'] = $products->getTotal();
+        $filters = [];
+
+        $dados['list'] = $products->getList($offset, $limit, $filters);
+        $dados['totalItems'] = $products->getTotal($filters);
         $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
         $dados['currentPage'] = $currentPage;
         $dados['categorias'] = $categories->getList();
-        $dados['filters'] = $f->getFilters();
+        $dados['filters'] = $f->getFilters($filters);
 
         $this->loadTemplate('home', $dados);
     }
