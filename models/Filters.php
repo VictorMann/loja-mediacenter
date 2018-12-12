@@ -27,6 +27,9 @@ class Filters extends model
     // promoção
     $dados['sale'] = $p->getSaleCount($filters);
 
+    // options
+    $dados['options'] = $p->getAvailableOptions($filters);
+
     return $dados;
   }
 }
