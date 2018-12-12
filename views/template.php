@@ -161,7 +161,17 @@
 								<div class="filterbox">
 									<div class="filtertitle"><?=$this->lang->get('OPTIONS')?></div>
 									<div class="filtercontent">
-										...
+									<?php if (!empty($viewData['filters']['options'])):?>
+										<?php foreach ($viewData['filters']['options'] as $option):?>
+											<strong><?=$option['name']?></strong>
+											<?php foreach ($option['options'] as $op):?>
+												<div class="filteritem">
+													<label><input type="checkbox" name="filter[optoins][]" value="<?=$op['id']?>"> <?=$op['value']?></label>
+													<span class="pull-right">(<?=$op['count']?>)</span>
+												</div>
+											<?php endforeach?>
+										<?php endforeach?>
+									<?php endif?>
 									</div>
 								</div>
 				  		</div>
