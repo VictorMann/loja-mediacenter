@@ -94,6 +94,75 @@ class Products extends model
         return $sql->rowCount() ? $sql->fetch()[0] : 0;
     }
 
+    public function getAvailableOptions($filters = [])
+    {
+        $groups = [];
+        $ids = [];
+
+        $where = $this->buildWhere($filters);
+
+        $sql  = 'SELECT id, options FROM '. self::TABLENAME;
+        $sql .= ' WHERE '. implode(' AND ', $where);
+
+        $sql = $this->db->prepare($sql);
+        $this->bindWhere($filters, $sql);
+        $sql->execute();
+
+        if ($sql->rowCount() > 0)
+        {
+            foreach ($sql->fetchAll() as $p)
+            {
+                $ops = explode(',', $p['options']);
+                $ids[] = $p['id'];
+                foreach ($ops as $op)
+                {
+                    if (!in_array($op, $groups)) $groups[] = $op;
+                }
+            }
+        }
+
+        $options = $this->getAvailableValuesFromOptions($groups, $ids);
+
+        return $options;
+    }
+
+    public function getAvailableValuesFromOptions($g, $ids)
+    {
+        $dados = [];
+        $options = new Options;
+
+        foreach ($g as $op)
+        {
+            $dados[$op] = [
+                'name' => $options->getName($op),
+                'options' => []
+            ];
+        }
+
+        $sql  = 'SELECT p_value, id_option, COUNT(*) AS c
+        FROM products_options
+        WHERE id_option IN ("'.implode('","', $g).'") 
+        AND id_product IN ("'.implode('","', $ids).'") 
+        GROUP BY p_value
+        ORDER BY id_option';
+
+        $sql = $this->db->query($sql);
+        if ($sql->rowCount() > 0)
+        {
+            foreach ($sql->fetchAll() as $ops)
+            {
+                $dados[$ops['id_option']]['options'][] = [
+                    'id' => $ops['id_option'],
+                    'value' => $ops['p_value'],
+                    'count' => $ops['c']
+                ];
+            }
+        }
+
+
+        return $dados;
+    }
+
     public function getListOfStars($filters)
     {
         $where = $this->buildWhere($filters);
