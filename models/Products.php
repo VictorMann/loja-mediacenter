@@ -10,10 +10,10 @@ class Products extends model
 
         $where = $this->buildWhere($filters);
         
-        $sql = 'SELECT p.*,
-        (SELECT b.name FROM brands b WHERE b.id = p.id_brand) as brand_name,
-        (SELECT c.name FROM categories c WHERE c.id = p.id_category) as category_name 
-        FROM products p
+        $sql = 'SELECT products.*,
+        (SELECT brands.name FROM brands WHERE brands.id = products.id_brand) as brand_name,
+        (SELECT categories.name FROM categories WHERE categories.id = products.id_category) as category_name 
+        FROM products
         WHERE '. implode(' AND ', $where);
 
         $sql .= " LIMIT {$limit} OFFSET {$offset}";
@@ -182,10 +182,10 @@ class Products extends model
     {
         $where = $this->buildWhere($filters);
 
-        $sql  = 'SELECT b.id, b.name, COUNT(*) qtd FROM '. self::TABLENAME;
-        $sql .= ' INNER JOIN brands b ON b.id = id_brand ';
+        $sql  = 'SELECT brands.id, brands.name, COUNT(*) qtd FROM '. self::TABLENAME;
+        $sql .= ' INNER JOIN brands ON brands.id = products.id_brand ';
         $sql .= 'WHERE ' . implode($where, ' AND ');
-        $sql .= ' GROUP BY b.id';
+        $sql .= ' GROUP BY brands.id';
 
         $sql = $this->db->prepare($sql);
         $this->bindWhere($filters, $sql);
@@ -198,14 +198,16 @@ class Products extends model
     {
         $where = ['1=1'];
         if (!empty($filters['category'])) $where[] = 'id_category = :id_category';
-        if (!empty($filters['id_brand'])) $where[] = 'id_brand = :id_brand';
-
+        if (!empty($filters['brand'])) $where[] = 'id_brand IN ("'. implode(",", $filters['brand']) .'")';
+        if (!empty($filters['star'])) $where[] = 'rating IN ("'. implode(",", $filters['star']) .'")';
+        if (!empty($filters['sale'])) $where[] = 'sale = 1';
+        if (!empty($filters['options'])) $where[] = 'products.id IN (SELECT id_product FROM products_options WHERE p_value IN ("'. implode(",", $filters['options']) .'"))';
+        
         return $where;
     }
 
     private function bindWhere($filters, &$sql)
     {
         if (!empty($filters['category'])) $sql->bindValue(':id_category', $filters['category']);
-        if (!empty($filters['id_brand'])) $sql->bindValue(':id_brand', $filters['id_brand']);
     }
 }
