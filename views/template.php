@@ -113,13 +113,14 @@
 				  	<aside>
 				  		<h1><?=$this->lang->get('FILTER')?></h1>
 				  		<div class="filterarea">
+							<form method="GET">
 								<div class="filterbox">
 									<div class="filtertitle"><?=$this->lang->get('BRANDS')?></div>
 									<div class="filtercontent">
 										<?php if (!empty($viewData['filters']['brands'])):?>
 											<?php foreach ($viewData['filters']['brands'] as $brand):?>
 												<div class="filteritem">
-													<label><input type="checkbox" name="filter[brand][]"> <?=$brand['name']?></label>
+													<label><input type="checkbox" name="filter[brand][]" value="<?=$brand['id']?>" <?=isset($viewData['filters_selected']['brand']) && in_array($brand['id'], $viewData['filters_selected']['brand'])?'checked':''?>> <?=$brand['name']?></label>
 													<span class="pull-right">(<?=$brand['qtd']?>)</span>
 												</div>
 											<?php endforeach?>
@@ -139,7 +140,7 @@
 										<?php foreach ($viewData['filters']['stars'] as $star => $qtd):?>
 											<div class="filtercontent">
 												<label>
-													<input type="checkbox" name="filter[star][]" value="<?=$star?>"> 
+													<input type="checkbox" name="filter[star][]" value="<?=$star?>" <?=isset($viewData['filters_selected']['star']) && in_array($star, $viewData['filters_selected']['star'])?'checked':''?>> 
 													<?=$star ?: $this->lang->get('NOSTAR')?>
 												</label>
 												<span class="pull-right">(<?=$qtd?>)</span>
@@ -151,7 +152,7 @@
 									<div class="filtertitle"><?=$this->lang->get('SALE')?></div>
 									<div class="filtercontent">
 										<div class="filteritem">
-											<label><input type="checkbox" name="filter[sale]"> Em promoção</label>
+											<label><input type="checkbox" name="filter[sale]" <?=!empty($viewData['filters_selected']['sale'])?'checked':''?>> Em promoção</label>
 											<?php if (!empty($viewData['filters']['sale'])):?>
 												<span class="pull-right">(<?=$viewData['filters']['sale']?>)</span>
 											<?php endif?>
@@ -166,7 +167,7 @@
 											<strong><?=$option['name']?></strong>
 											<?php foreach ($option['options'] as $op):?>
 												<div class="filteritem">
-													<label><input type="checkbox" name="filter[optoins][]" value="<?=$op['id']?>"> <?=$op['value']?></label>
+													<label><input type="checkbox" name="filter[options][]" value="<?=$op['value']?>" <?=isset($viewData['filters_selected']['options']) && in_array($op['value'], $viewData['filters_selected']['options'])?'checked':''?>> <?=$op['value']?></label>
 													<span class="pull-right">(<?=$op['count']?>)</span>
 												</div>
 											<?php endforeach?>
@@ -174,6 +175,7 @@
 									<?php endif?>
 									</div>
 								</div>
+							</form>
 				  		</div>
 
 				  		<div class="widget">
@@ -296,6 +298,7 @@
 		<script type="text/javascript">
 			var BASE_URL = '<?php echo BASE_URL; ?>';
 			var maxslider = <?=!empty($viewData['filters']['maxslider']) ? $viewData['filters']['maxslider'] : 100?>;
+			var slidervalues = [100, maxslider];
 		</script>
 		<script type="text/javascript" src="<?=BASE_URL?>assets/js/jquery.min.js"></script>
 		<script type="text/javascript" src="<?=BASE_URL?>assets/js/jquery-ui.min.js"></script>

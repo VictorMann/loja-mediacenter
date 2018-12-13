@@ -26,12 +26,18 @@ class homeController extends controller {
 
         $filters = [];
 
+        if (!empty($_GET['filter']) and is_array($_GET['filter']))
+        {
+            $filters = $_GET['filter'];
+        }
+
         $dados['list'] = $products->getList($offset, $limit, $filters);
         $dados['totalItems'] = $products->getTotal($filters);
         $dados['numberOfPages'] = ceil($dados['totalItems'] / $limit);
         $dados['currentPage'] = $currentPage;
         $dados['categorias'] = $categories->getList();
         $dados['filters'] = $f->getFilters($filters);
+        $dados['filters_selected'] = $filters;
 
         $this->loadTemplate('home', $dados);
     }
