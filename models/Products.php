@@ -71,7 +71,7 @@ class Products extends model
         $where = $this->buildWhere($filters);
 
         $sql = 'SELECT MAX(price) FROM '. self::TABLENAME;
-        $sql .= ' WHERE '. implode(' AND ', $where);
+        // $sql .= ' WHERE '. implode(' AND ', $where);
 
         $sql = $this->db->prepare($sql);
         $this->bindWhere($filters, $sql);
@@ -202,6 +202,10 @@ class Products extends model
         if (!empty($filters['star'])) $where[] = 'rating IN ("'. implode(",", $filters['star']) .'")';
         if (!empty($filters['sale'])) $where[] = 'sale = 1';
         if (!empty($filters['options'])) $where[] = 'products.id IN (SELECT id_product FROM products_options WHERE p_value IN ("'. implode(",", $filters['options']) .'"))';
+        if (!empty($filters['slider'])) {
+            $price = array_map(function($v){return  (float) $v;}, $filters['slider']);
+            $where[] = "price BETWEEN {$price['min']} AND {$price['max']}";
+        }
         
         return $where;
     }
