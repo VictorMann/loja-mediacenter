@@ -130,6 +130,8 @@
 								<div class="filterbox">
 									<div class="filtertitle"><?=$this->lang->get('PRICE')?></div>
 									<div class="filtercontent">
+										<input type="hidden" name="filter[slider][min]" value="<?=$viewData['filters']['slider']['min']?>">
+										<input type="hidden" name="filter[slider][max]" value="<?=$viewData['filters']['slider']['max']?>">
 										<input type="text" id="amount" readonly>
 										<div id="slider-range"></div>
 									</div>
@@ -296,9 +298,12 @@
 	    	</div>
 	    </footer>
 		<script type="text/javascript">
-			var BASE_URL = '<?php echo BASE_URL; ?>';
-			var maxslider = <?=!empty($viewData['filters']['maxslider']) ? $viewData['filters']['maxslider'] : 100?>;
-			var slidervalues = [100, maxslider];
+			let BASE_URL = '<?=BASE_URL?>';
+			let maxslider = <?=$viewData['filters']['maxslider']?>;
+			let slidervalues = [
+				<?=$viewData['filters']['slider']['min']?>, 
+				<?=$viewData['filters']['slider']['max']?>
+			];
 		</script>
 		<script type="text/javascript" src="<?=BASE_URL?>assets/js/jquery.min.js"></script>
 		<script type="text/javascript" src="<?=BASE_URL?>assets/js/jquery-ui.min.js"></script>
