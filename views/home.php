@@ -30,7 +30,7 @@
             <?php for ($i = 1; $i <= $numberOfPages; $i ++):?>
                 <li>
                     <a 
-                     href="?p=<?=$i?>" 
+                     href="?<?=http_build_query(array_merge($_GET, ['p' => $i]))?>" 
                      class="<?=$currentPage==$i?'activated':''?>">
                         <?=$i?>
                     </a>
