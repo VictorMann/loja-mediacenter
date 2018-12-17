@@ -131,6 +131,10 @@
 				  		<h1><?=$this->lang->get('FILTER')?></h1>
 				  		<div class="filterarea">
 							<form method="GET">
+								
+								<input type="hidden" name="s" value="<?=isset($_GET['s'])?$_GET['s']:''?>">
+								<input type="hidden" name="category" value="<?=isset($_GET['category'])?$_GET['category']:''?>">
+								
 								<div class="filterbox">
 									<div class="filtertitle"><?=$this->lang->get('BRANDS')?></div>
 									<div class="filtercontent">
