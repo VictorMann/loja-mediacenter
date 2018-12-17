@@ -42,10 +42,27 @@
 						<div class="head_email">contato@<span>loja2.com.br</span></div>
 						
 						<div class="search_area">
-							<form method="GET">
-								<input type="text" name="s" required placeholder="<?=$this->lang->get('SEARCHFORANITEM')?>" />
+							<form method="GET" action="<?=BASE_URL?>busca">
+								<input type="text" name="s" value="<?=!empty($viewData['searchTerm'])?$viewData['searchTerm']:''?>" required placeholder="<?=$this->lang->get('SEARCHFORANITEM')?>" />
 								<select name="category">
 									<option value=""><?=$this->lang->get('ALLCATEGORIES')?></option>
+									<?php foreach ($viewData['categorias'] as $cat):?>
+										<option 
+										 value="<?=$cat['id']?>" 
+										 <?=!empty($_GET['category']) && $_GET['category'] == $cat['id']?'selected':''?>>
+											<?=$cat['name']?>
+										</option>
+										
+										<?php
+											if (count($cat['subs']) > 0)
+											{
+												$this->loadView('search_subcategory', [
+													'subs' => $cat['subs'],
+													'level' => 1
+												]);
+											}
+										?>
+									<?php endforeach?>
 								</select>
 								<input type="submit" value="" />
 						    </form>
