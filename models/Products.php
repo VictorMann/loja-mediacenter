@@ -202,10 +202,13 @@ class Products extends model
         if (!empty($filters['star'])) $where[] = 'rating IN ("'. implode(",", $filters['star']) .'")';
         if (!empty($filters['sale'])) $where[] = 'sale = 1';
         if (!empty($filters['options'])) $where[] = 'products.id IN (SELECT id_product FROM products_options WHERE p_value IN ("'. implode(",", $filters['options']) .'"))';
-        if (!empty($filters['slider'])) {
+        if (!empty($filters['slider']))
+        {
             $price = array_map(function($v){return  (float) $v;}, $filters['slider']);
             $where[] = "price BETWEEN {$price['min']} AND {$price['max']}";
         }
+        if (!empty($filters['searchTerm'])) $where[] = 'products.name LIKE :searchTerm';
+        
         
         return $where;
     }
@@ -213,5 +216,6 @@ class Products extends model
     private function bindWhere($filters, &$sql)
     {
         if (!empty($filters['category'])) $sql->bindValue(':id_category', $filters['category']);
+        if (!empty($filters['searchTerm'])) $sql->bindValue(':searchTerm', '%'.$filters['searchTerm'].'%');
     }
 }

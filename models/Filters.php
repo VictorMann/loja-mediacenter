@@ -5,6 +5,7 @@ class Filters extends model
   public function getFilters($filters)
   {
     $dados = [
+      'searchTerm' => '',
       'brands' => [],
       'maxslider' => 999,
       'stars' => [0,0,0,0,0,0],
@@ -19,6 +20,9 @@ class Filters extends model
     $p = new Products;
     $dados['brands'] = $p->getListTotalItems($filters);
 
+    // serach
+    $dados['searchTerm'] = !empty($filters['searchTerm']) ? $filters['searchTerm'] : '';
+    
     // preço
     $dados['maxslider'] = $p->getMaxPrice($filters);
     $dados['slider']['min'] = !empty($filters['slider']['min']) ? $filters['slider']['min'] : 0;
