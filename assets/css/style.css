@@ -405,3 +405,39 @@ float: left;
 	border: none;
 	outline: none;
 }
+
+/** WIDGET **/
+.widget_item {
+	display: flex;
+	margin-bottom: 1rem;
+}
+.widget_item a,
+.widget_item a:hover {
+	text-decoration: none;
+	color: inherit;
+}
+.widget_image {
+	width: 20%;
+	border: 1px solid #ccc;
+	padding: .5rem;
+	background: white;
+}
+.widget_desc {
+	flex: 1;
+	padding-left: 1.4rem;
+}
+.widget_desc * {
+	margin: 0;
+}
+.widget_desc h3 {
+	font-size: 1em;
+	margin-bottom: .2em;
+	color: rgb(23, 23, 172);
+	font-weight: bold;
+}
+.widget_desc p {
+	font-size: .9em;
+}
+.widget_desc span {
+	color: #AAA;
+}

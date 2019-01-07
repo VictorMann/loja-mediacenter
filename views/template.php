@@ -204,7 +204,7 @@
 				  		<div class="widget">
 				  			<h1><?=$this->lang->get('FEATUREDPRODUCTS')?></h1>
 				  			<div class="widget_body">
-				  				...
+							  <?php $this->loadView('widget_item', ['list' => $viewData['widget_featured1']])?>
 				  			</div>
 				  		</div>
 				  	</aside>
@@ -220,7 +220,7 @@
 				  	<div class="widget">
 			  			<h1><?=$this->lang->get('FEATUREDPRODUCTS')?></h1>
 			  			<div class="widget_body">
-			  				...
+			  				<?php $this->loadView('widget_item', ['list' => $viewData['widget_featured2']])?>
 			  			</div>
 			  		</div>
 				  </div>
@@ -228,7 +228,7 @@
 				  	<div class="widget">
 			  			<h1><?=$this->lang->get('ONSALEPRODUCTS')?></h1>
 			  			<div class="widget_body">
-			  				...
+						  <?php $this->loadView('widget_item', ['list' => $viewData['widget_sale']])?>
 			  			</div>
 			  		</div>
 				  </div>
@@ -236,7 +236,7 @@
 				  	<div class="widget">
 			  			<h1><?=$this->lang->get('TOPRATEDPRODUCTS')?></h1>
 			  			<div class="widget_body">
-			  				...
+						  <?php $this->loadView('widget_item', ['list' => $viewData['widget_toprated']])?>
 			  			</div>
 			  		</div>
 				  </div>
