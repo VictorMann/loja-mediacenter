@@ -4,9 +4,13 @@ class Products extends model
 {
     const TABLENAME = 'products';
 
-    public function getList($offset = 0, $limit = 3, $filters = [])
+    public function getList($offset = 0, $limit = 3, $filters = [], $random = false)
     {
         $dados = [];
+
+        $orderBySQL = $random ? ' ORDER BY RAND()' : '';
+
+        if (!empty($filters['toprated'])) $orderBySQL = ' ORDER BY rating DESC';
 
         $where = $this->buildWhere($filters);
         
@@ -16,6 +20,7 @@ class Products extends model
         FROM products
         WHERE '. implode(' AND ', $where);
 
+        $sql .= $orderBySQL;
         $sql .= " LIMIT {$limit} OFFSET {$offset}";
 
         $sql = $this->db->prepare($sql);
@@ -201,6 +206,8 @@ class Products extends model
         if (!empty($filters['brand'])) $where[] = 'id_brand IN ("'. implode(",", $filters['brand']) .'")';
         if (!empty($filters['star'])) $where[] = 'rating IN ("'. implode(",", $filters['star']) .'")';
         if (!empty($filters['sale'])) $where[] = 'sale = 1';
+        if (!empty($filters['featured'])) $where[] = 'featured = 1';
+
         if (!empty($filters['options'])) $where[] = 'products.id IN (SELECT id_product FROM products_options WHERE p_value IN ("'. implode(",", $filters['options']) .'"))';
         if (!empty($filters['slider']))
         {
