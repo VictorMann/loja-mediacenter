@@ -1,5 +1,5 @@
 <div class="product_item">
-    <a href="#">
+    <a href="<?=BASE_URL?>product/open/<?=$id?>">
         <div class="product_tags">
             <?php if ($sale):?>
                 <div class="product_tag tag_red"><?=$this->lang->get('SALE')?></div>
