@@ -4,6 +4,17 @@ class Products extends model
 {
     const TABLENAME = 'products';
 
+    public function get($id)
+    {
+        $sql  = 'SELECT *, (SELECT name FROM brands WHERE brands.id = products.id_brand) as brand FROM '. self::TABLENAME;
+        $sql .= ' WHERE id = ?';
+
+        $sql = $this->db->prepare($sql);
+        $sql->execute([$id]);
+        
+        return $sql->rowCount() ? $sql->fetch(PDO::FETCH_ASSOC) : null;
+    }
+
     public function getList($offset = 0, $limit = 3, $filters = [], $random = false)
     {
         $dados = [];
