@@ -246,10 +246,15 @@
 	    		<div class="container">
 	    			<div class="row">
 						<div class="col-xs-12 col-sm-8 col-sm-offset-2 no-padding">
-							<form method="POST">
-								<input class="subemail" name="email" placeholder="<?=$this->lang->get('SUBSCRIBETEXT')?>">
-								<input type="submit" value="<?=$this->lang->get('SUBSCRIBEBUTTON')?>" />
+
+							<!-- integração com mailchimp -->
+							<form action="https://nonwebsite.us7.list-manage.com/subscribe/post?u=894bcea646268ea31f093134f&amp;id=3f82f805a4" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+								<input type="email" value="" name="EMAIL" class="subemail required email" id="mce-EMAIL" placeholder="<?=$this->lang->get('SUBSCRIBETEXT')?>">
+								<input type="hidden" name="b_894bcea646268ea31f093134f_3f82f805a4" tabindex="-1" value="">
+								<input type="submit" value="<?=$this->lang->get('SUBSCRIBEBUTTON')?>" name="subscribe" id="mc-embedded-subscribe" class="button">
 							</form>
+							
+
 						</div>
 					</div>
 	    		</div>
