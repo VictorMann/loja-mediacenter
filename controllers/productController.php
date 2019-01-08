@@ -11,7 +11,7 @@ class productController extends controller
 
     public function index() {}
 
-    public function open() 
+    public function open($id) 
     {
         $dados = array();
 
@@ -20,6 +20,15 @@ class productController extends controller
         $f = new Filters;
 
         $filters = [];
+
+        $product = $products->get($id);
+        if (!$product)
+        {
+            header('Location: '. BASE_URL);
+            exit;
+        }
+        
+        $dados['p'] = $product;
 
         $dados['filters'] = $f->getFilters($filters);
         $dados['filters_selected'] = $filters;
