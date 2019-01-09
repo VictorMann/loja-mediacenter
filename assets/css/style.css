@@ -441,3 +441,33 @@ float: left;
 .widget_desc span {
 	color: #AAA;
 }
+.p_price_from {
+	font-size: 1em;
+	color: #CCC;
+}
+.p_price_origin {
+	font-size: 2em;
+	font-weight: bold;
+}
+.f-add-cart {
+	margin-top: 2em;
+}
+.f-add-cart > input {
+	height: 4em;
+	text-align: center;
+}
+.f-add-cart [type=submit] {
+	background-color: #59b210;
+	border-radius: 5px;
+	border: none;
+	color: white;
+	padding-left: 1.3em;
+	padding-right: 1.3em;
+}
+.gallery {
+	display: flex;
+}
+.photo_item {
+	width: 25%;
+	padding: 1rem;
+}

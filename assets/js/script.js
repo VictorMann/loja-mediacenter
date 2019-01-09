@@ -20,3 +20,18 @@ $('#amount')
 $('.filterarea :input').on('change', function(e) {
 	this.form.submit();
 });
+
+// ** Pagina Produto
+//
+// alterando imagem principal com miniaturas ao clicar
+let img_principal = document.querySelector('.main-photo img');
+document.querySelectorAll('.photo_item img').forEach(img => 
+	img.addEventListener('click', function(event) {
+		img_principal.src = this.src;
+	})
+);
+/*
+$('.photo_item img').click(function(event) {
+	$('.main-photo img').attr('src', this.src);
+});
+*/

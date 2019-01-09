@@ -29,6 +29,7 @@ class productController extends controller
         }
         
         $dados['p'] = $product;
+        $dados['p_imgs'] = $products->getImageByProductId($id);
 
         $dados['filters'] = $f->getFilters($filters);
         $dados['filters_selected'] = $filters;
