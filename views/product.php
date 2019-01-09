@@ -29,3 +29,25 @@
         </form>
     </div>
 </div>
+<hr>
+<div class="row">
+    <div class="col-sm-6">
+        <?php if ($p_opts):?>
+            <h3><?=$this->lang->get('PRODUCT_SPECIFICATIONS')?></h3>
+            <?php foreach ($p_opts as $opt):?>
+                <strong><?=$opt['name']?></strong>: <?=$opt['value']?><br>
+            <?php endforeach?>
+        <?php endif?>
+    </div>
+    <div class="col-sm-6">
+        <h3><?=$this->lang->get('PRODUCT_REVIEWS')?></h3>
+        <hr>
+        <?php if ($p_rates):?>
+            <?php foreach ($p_rates as $r):?>
+                <strong><?=$r['user_name']?></strong> - <?=str_repeat('* ', $r['points'])?><br>
+                "<?=$r['comment']?>"
+                <hr>
+            <?php endforeach?>
+        <?php endif?>
+    </div>
+</div>

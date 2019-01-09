@@ -82,6 +82,37 @@ class Products extends model
         return $imgs;
     }
 
+    public function getOptions($id)
+    {
+        $sql = 'SELECT 1 FROM products 
+        WHERE id = ? 
+        AND options IS NOT NULL 
+        AND LENGTH(options) > 0';
+
+        $sql = $this->db->prepare($sql);
+        $sql->execute([$id]);
+
+        // se não houver opções
+        if (!$sql->rowCount()) return;
+
+        // obtem nome e valor das opções
+        $sql = 'SELECT o.name, op.p_value as `value`
+        FROM products_options op
+        INNER JOIN options o ON o.id = op.id_option
+        WHERE id_product = ?';
+
+        $sql = $this->db->prepare($sql);
+        $sql->execute([$id]);
+
+        return $sql->rowCount() ? $sql->fetchAll() : !1;
+    }
+
+    public function getRates($id, $qt)
+    {
+        $rates = new Rates;
+        return $rates->getRates($id, $qt);
+    }
+
     public function getMaxPrice($filters = [])
     {
         $where = $this->buildWhere($filters);

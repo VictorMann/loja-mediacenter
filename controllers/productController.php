@@ -30,7 +30,9 @@ class productController extends controller
         
         $dados['p'] = $product;
         $dados['p_imgs'] = $products->getImageByProductId($id);
-
+        $dados['p_opts'] = $products->getOptions($id);
+        $dados['p_rates'] = $products->getRates($id, 5);
+        
         $dados['filters'] = $f->getFilters($filters);
         $dados['filters_selected'] = $filters;
 
