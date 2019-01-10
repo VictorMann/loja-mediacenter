@@ -15,7 +15,7 @@ class categoriesController extends controller
 
     public function index() 
     {
-        $dados = array();
+        $dados = Store::getTemplateData();
 
         $currentPage = 1;
         if (!empty($_GET['p']) && $_GET['p'] > 0) $currentPage = (int) $_GET['p'];
@@ -28,12 +28,15 @@ class categoriesController extends controller
         $dados['currentPage'] = $currentPage;
         $dados['categorias'] = $this->categories->getList();
 
+        $dados['sidebar'] = true;
+        
         $this->loadTemplate('home', $dados);
     }
 
     public function enter($id)
     {
-        $dados = [];
+        $f = new Filters;
+        $dados = Store::getTemplateData();
         
         $dados['catName'] = $this->categories->getName($id);
 
@@ -45,7 +48,7 @@ class categoriesController extends controller
         }
 
         // filter
-        $filter = ['category' => $id];
+        $filters = ['category' => $id];
 
         $dados['categorias'] = $this->categories->getList();
         $dados['filter_category'] = $this->categories->getCategoryTree($id);
@@ -55,11 +58,17 @@ class categoriesController extends controller
         if (!empty($_GET['p']) && $_GET['p'] > 0) $currentPage = (int) $_GET['p'];
 
         $this->offset = $currentPage * $this->limit - $this->limit;
-
-        $dados['list'] = $this->products->getList($this->offset, $this->limit, $filter);
-        $dados['totalItems'] = $this->products->getTotal($filter);
+        
+        $dados['sidebar'] = true;
+        $dados['list'] = $this->products->getList($this->offset, $this->limit, $filters);
+        $dados['totalItems'] = $this->products->getTotal($filters);
         $dados['numberOfPages'] = ceil($dados['totalItems'] / $this->limit);
         $dados['currentPage'] = $currentPage;
+
+        $dados['filters'] = $f->getFilters($filters);
+        $dados['filters_selected'] = $filters;
+
+        
 
 
         $this->loadTemplate('categories', $dados);

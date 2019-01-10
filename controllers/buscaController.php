@@ -16,7 +16,7 @@ class buscaController extends controller {
             exit;
         }
 
-        $dados = array();
+        $dados = Store::getTemplateData();
 
         $limit = 3;
         $offset = 0;
@@ -50,6 +50,8 @@ class buscaController extends controller {
         $dados['filters_selected'] = $filters;
         $dados['searchTerm'] = $searchTerm;
         $dados['category'] = $filters['category'];
+
+        $dados['sidebar'] = true;
 
         $this->loadTemplate('busca', $dados);
     }
