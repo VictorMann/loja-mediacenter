@@ -23,7 +23,8 @@
         De: <span class="p_price_from">R$ <?=$p['price_from']?></span><br>
         Por: <span class="p_price_origin">R$ <?=$p['price']?></span>
 
-        <form method="POST" class="f-add-cart">
+        <form method="POST" class="f-add-cart" action="<?=BASE_URL?>cart/add">
+            <input type="hidden" name="id_product" value="<?=$p['id']?>">
             <input type="number" name="qt" min=1 max=99 value=1 step=1>
             <input type="submit" value="<?=$this->lang->get('ADD_TO_CART')?>">    
         </form>
