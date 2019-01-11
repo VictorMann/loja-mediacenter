@@ -11,9 +11,19 @@ class cartController extends controller
 
     public function index() 
     {
+        $cart = new Cart;
         $products = new Products;
+
+        if (!isset($_SESSION['cart']) || count($_SESSION['cart']) == 0)
+        {
+            header('Location: '. BASE_URL);
+            exit;
+        }
         
         $dados = Store::getTemplateData();
+
+        $dados['list'] = $cart->all();
+
 
         $this->loadTemplate('cart', $dados);
     }

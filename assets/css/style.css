@@ -471,3 +471,13 @@ float: left;
 	width: 25%;
 	padding: 1rem;
 }
+.table-cart td {
+	vertical-align: middle !important;
+}
+.table-cart th:nth-child(1n+3),
+.table-cart td:nth-child(1n+3) {
+	text-align: center;
+}
+.table-cart .tal {
+	text-align: center;
+}
