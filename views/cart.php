@@ -32,3 +32,21 @@
         </tr>
     </tbody>
 </table>
+<hr>
+<div class="ctn-shipping flx flx-between">
+    <div class="calc-frete">
+        <h4>Qual é seu CEP?</h4>
+        <form method="POST">
+            <input type="text" name="cep" pattern="\d{5}-?\d{3}">
+            <input type="submit" value="Calcular">
+        </form>
+    </div>
+    <div class="amount">
+        <?php if (!empty($shipping)):?>
+            <h4><b>FRETE: R$ <?=$shipping['price'] . " - {$shipping['date']} dia(s)"?></b></h4>
+            <h4 class="bg-success"><b>TOTAL: R$ <?=number_format($tal + str_replace(',', '.', $shipping['price']), 2, ',', '.')?></b></h4>
+        <?php endif?>
+    </div>
+</div>
+    
+

@@ -19,10 +19,24 @@ class cartController extends controller
             header('Location: '. BASE_URL);
             exit;
         }
-        
-        $dados = Store::getTemplateData();
 
+        $dados = Store::getTemplateData();
+        
         $dados['list'] = $cart->all();
+        $dados['shipping'] = null;
+
+        if (!empty($_POST['cep']))
+        {
+            $cep = (int) $_POST['cep'];
+            $dados['shipping'] = $cart->shippingCalculate($cep);
+            $_SESSION['shipping'] = $dados['shipping'];
+        }
+        elseif (!empty($_SESSION['shipping']))
+        {
+            $dados['shipping'] = $_SESSION['shipping'];
+        }
+        
+        
 
 
         $this->loadTemplate('cart', $dados);
