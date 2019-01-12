@@ -44,4 +44,11 @@ class cartController extends controller
         header('Location: '. BASE_URL .'cart');
         exit;
     }
+
+    public function del($id)
+    {
+        unset($_SESSION['cart'][$id]);
+        header('Location: '. BASE_URL . 'cart');
+        exit;
+    }
 }

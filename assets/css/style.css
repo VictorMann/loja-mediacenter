@@ -480,4 +480,27 @@ float: left;
 }
 .table-cart .tal {
 	text-align: center;
+	font-size: 1.3em;
+	font-weight: bold;
+}
+.cell-empty {
+	position: relative;
+}
+.cell-empty .empty {
+	position: absolute;
+	left: -2%;
+	right: -2%;
+	top: 0;
+	bottom: 0;
+	background: white;
+}
+.cell-empty.img .empty {
+	right: 0;
+	top: -2%;
+}
+.cart-control-qt {
+	width: 50px;
+    background: transparent;
+    border: 1px solid #AAA;
+    text-align: center;
 }
