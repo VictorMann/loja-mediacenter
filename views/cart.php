@@ -16,7 +16,7 @@
             <td><img src="<?=BASE_URL.'media/products/'. $p['image']?>" alt=""></td>
             <td><?=$p['name']?></td>
             <td><input class="cart-control-qt" type="number" min=1 step=1 value="<?=$p['qt']?>"></td>
-            <td>R$ <?=number_format($p['price'], 2, ',', '.')?></td>
+            <td class="cart-price-item">R$ <?=number_format($p['price'], 2, ',', '.')?></td>
             <td style="width: 20px">
                 <a href="<?=BASE_URL. 'cart/del/'. $p['id']?>"><i class="glyphicon glyphicon-remove text-danger"></i></a>
             </td>
@@ -28,7 +28,7 @@
         </tr>
         <tr class="active tal">
             <td colspan="3">Sub Total</td>
-            <td>R$ <?=number_format($tal, 2, ',', '.')?></td>
+            <td class="cart-total">R$ <?=number_format($tal, 2, ',', '.')?></td>
         </tr>
     </tbody>
 </table>

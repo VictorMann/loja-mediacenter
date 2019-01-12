@@ -51,4 +51,22 @@ class cartController extends controller
         header('Location: '. BASE_URL . 'cart');
         exit;
     }
+
+    public function update()
+    {
+        // se não for uma requisição POST
+        if ($_SERVER['REQUEST_METHOD'] <> 'POST') return;
+
+        $id = (int) $_POST['id'];
+        $qt = (int) $_POST['qt'];
+
+        $o = new StdClass;
+        $o->id      = $id;
+        $o->qt_last = $_SESSION['cart'][$id];
+        $o->qt_now  = $qt;
+
+        $_SESSION['cart'][$id] = $qt;
+        
+        echo json_encode($o);
+    }
 }

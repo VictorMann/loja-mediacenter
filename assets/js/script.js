@@ -46,22 +46,45 @@ $('.cart-control-qt')
 	
 	let id = $(this).closest('tr').attr('data-id');
 
-	let f = new FormData();
-	f.append('id', id);
-	f.append('qt', this.value);
+	let form = new FormData();
+	form.append('id', id);
+	form.append('qt', this.value);
 
 	fetch(BASE_URL + 'cart/update', {
-		headers: {
-
-		},
 		method: 'POST',
-		body: f,
+		body: form,
 	})
 	.then(res => res.ok ? res.json() : Promise.reject(res.statusText))
 	.then(dados => {
-		console.log(dados)
+		let valItem = $(this).closest('tr').find('.cart-price-item').text();
+		let talCart = $('.cart-total:first').text();
+		
+		valItem = textoMoedaParaNumero(valItem);
+		talCart = textoMoedaParaNumero(talCart);
+		
+		talCart -= valItem * dados.qt_last;
+		talCart += valItem * dados.qt_now;
+		
+		talCart = numeroParaTextoMoeda(talCart);
+		$('.cart-total').text(talCart);
 	})
 	.catch(console.log);
 	
 });
+function toArray(texto) {
+	return Array.prototype.slice.call(texto, 0);
+}
+function textoMoedaParaNumero(texto) {
+	return +texto.replace(/[r$ .]/ig, '').replace(',', '.');
+}
+function numeroParaTextoMoeda(n) {
+	n = toArray(n.toFixed(2).replace('.',',')).reverse();
+	let pos = 3 + n.indexOf(',');
+	for (;pos < n.length; pos += 3) {
+		if (!(pos+1 in n)) break;
+		n[pos] = '.' + n[pos];
+	}
+	return 'R$ ' + n.reverse().join('');
+}
+
 

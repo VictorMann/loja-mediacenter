@@ -76,7 +76,7 @@
 								</div>
 								<div class="carttotal">
 									<?=$this->lang->get('CART')?>:<br/>
-									<span>
+									<span class="cart-total">
 										<?=$viewData['cart']['total'] ? 'R$ '. number_format($viewData['cart']['total'], 2, ',', '.'):''?>
 									</span>
 								</div>
