@@ -35,3 +35,33 @@ $('.photo_item img').click(function(event) {
 	$('.main-photo img').attr('src', this.src);
 });
 */
+$('.cart-control-qt')
+.each(function(){
+	this.dataset.lastValue = this.value;	
+})
+.blur(function(event) {
+	
+	if (this.dataset.lastValue == this.value) return;
+	this.dataset.lastValue = this.value;
+	
+	let id = $(this).closest('tr').attr('data-id');
+
+	let f = new FormData();
+	f.append('id', id);
+	f.append('qt', this.value);
+
+	fetch(BASE_URL + 'cart/update', {
+		headers: {
+
+		},
+		method: 'POST',
+		body: f,
+	})
+	.then(res => res.ok ? res.json() : Promise.reject(res.statusText))
+	.then(dados => {
+		console.log(dados)
+	})
+	.catch(console.log);
+	
+});
+
