@@ -24,4 +24,17 @@ class Cart extends model
 
         return $dados;
     }
+
+    public static function getSubTotal()
+    {
+        if (empty($_SESSION['cart'])) return 0;
+
+        $tal = 0;
+        $product = new Products;
+
+        foreach ($_SESSION['cart'] as $id => $qt)
+            $tal += $qt * ($product->get($id)['price']);
+
+        return $tal;
+    }
 }
