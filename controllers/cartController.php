@@ -83,4 +83,24 @@ class cartController extends controller
         
         echo json_encode($o);
     }
+
+    public function payment_redirect()
+    {
+        if (empty($_POST['payment_type']))
+        {
+            header('Location: '. BASE_URL . 'cart');
+            exit;
+        }
+
+        $payment = $_POST['payment_type'];
+
+        switch ($payment)
+        {
+            case 'checkout_transparent':
+                header('Location:'. BASE_URL .'psckttransparente');
+            break;
+        }
+
+        exit;
+    }
 }

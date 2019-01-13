@@ -510,3 +510,17 @@ float: left;
     border: 1px solid #AAA;
     text-align: center;
 }
+.form-finalizar {
+	margin-top: 3em;
+}
+.botao {
+	background: #59b210;
+	border-radius: 5px;
+	padding: .5em 1em;
+	color: white;
+	border: none;
+}
+.botao-finalizar-compra {
+	font-size: 1.3em;
+	margin-top: .5em;
+}

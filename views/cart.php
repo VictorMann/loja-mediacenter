@@ -45,6 +45,17 @@
         <?php if (!empty($shipping)):?>
             <h4><b>FRETE: R$ <?=$shipping['price'] . " - {$shipping['date']} dia(s)"?></b></h4>
             <h4 class="bg-success"><b>TOTAL: R$ <?=number_format($tal + str_replace(',', '.', $shipping['price']), 2, ',', '.')?></b></h4>
+
+            <form method="POST" action="<?=BASE_URL?>cart/payment_redirect" class="form-finalizar">
+                <div class="form-group">
+                    <label for="payment_type">Meio de pagamento</label>
+                    <select name="payment_type" class="form-control">
+                        <option value="checkout_transparent">Pagseguro Checkoout transparente</option>
+                    </select>
+                </div>
+                <br>
+                <input class="botao botao-finalizar-compra" type="submit" value="Finalizar Compra">
+            </form>
         <?php endif?>
     </div>
 </div>
