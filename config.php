@@ -22,7 +22,7 @@ else
 }
 
 $config['default_lang'] = 'pt-br';
-$config['cep_origin'] = '07145000';
+$config['cep_origin'] = CEP_ORIGIN;
 
 $db = new PDO("mysql:dbname=".$config['dbname'].";host=".$config['host'], $config['dbuser'], $config['dbpass']);
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
