@@ -2,6 +2,19 @@ window.addEventListener('load', event => {
     
     $('.botao-efetuarCompra').click(function(e) {
         e.preventDefault();
+
+        let id = PagSeguroDirectPayment.getSenderHash();
+
+        let name = $('[name=name]').val().trim();
+        let password = $('[name=password]').val().trim();
+        let email = $('[name=email]').val().trim();
+        let cep = $('[name=cep]').val().trim();
+        let endereco = $('[name=endereco]').val().trim();
+
+
+
+        let cartao_titular = $('[name=cartao_titular]').val().trim();
+        let cartao_cpf = $('[name=cartao_cpf]').val().trim();
         let numero = $('[name=cartao_num]').val().trim();
         let cvv = $('[name=cartao_cvv]').val().trim();
         let v_mes = $('[name=cartao_mes]').val().trim();
@@ -20,6 +33,33 @@ window.addEventListener('load', event => {
                 success: r => {
                     console.log(r);
                     window.cardToken = r.card.token;
+
+                    $.ajax({
+                        url: BASE_URL + 'psckttransparente/checkout',
+                        method: 'POST',
+                        data: {
+                            id,
+                            name,
+                            password,
+                            email,
+                            cep,
+                            endereco,
+                            cartao_titular,
+                            cartao_cpf,
+                            numero,
+                            cvv,
+                            v_mes,
+                            v_ano,
+                            cartao_token: window.cardToken
+                        },
+                        dataType: 'json',
+                        success: function(r) {
+                            if (r.error) alert(r.msg);
+                        },
+                        error: r => console.log(r) 
+                    })
+
+
                 },
                 error: r => console.log(r),
                 complete: r => console.log('complete token card')
