@@ -71,6 +71,16 @@
             <h3>Informações de Pagamenot</h3>
             
             <div class="form-group">
+                <label for="">Titular do cartão</label>
+                <input type="text" name="cartao_titular" class="form-control" pattern="\d+">
+            </div>
+
+            <div class="form-group">
+                <label for="">CPF do titular</label>
+                <input type="text" name="cartao_cpf" class="form-control" pattern="\d+">
+            </div>
+
+            <div class="form-group">
                 <label for="">N. cartão</label>
                 <input type="text" name="cartao_num" class="form-control" pattern="\d+">
             </div>
