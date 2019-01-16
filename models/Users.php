@@ -11,8 +11,7 @@ class Users extends model
     {
         $sql = 'INSERT INTO users 
         (name, email, password) 
-        VALUES 
-        (:name, :email, :password)';
+        VALUES (?, ?, ?)';
 
         $sql = $this->db->prepare($sql);
         $sql->execute([$name, $email, md5($password)]);
@@ -26,7 +25,7 @@ class Users extends model
     public function emailExists($email)
     {
         $sql = 'SELECT 1 FROM users 
-        WHERE email = :email LIMIT 1';
+        WHERE email = ? LIMIT 1';
 
         $sql = $this->db->prepare($sql);
         $sql->execute([$email]);
@@ -36,8 +35,7 @@ class Users extends model
     public function validate($email, $password)
     {
         $sql = 'SELECT * FROM users 
-        WHERE email = :email AND password = :password 
-        LIMIT 1';
+        WHERE email = ? AND password = ? LIMIT 1';
 
         $sql = $this->db->prepare($sql);
         $sql->execute([$email, md5($password)]);
