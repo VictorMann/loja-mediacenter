@@ -12,6 +12,11 @@
             </div>
 
             <div class="form-group">
+                <label for="">Telefone</label>
+                <input type="text" name="phone" class="form-control" value="11987654321">
+            </div>
+
+            <div class="form-group">
                 <label for="">CPF</label>
                 <input type="text" name="cpf" class="form-control" value="45061400879">
             </div>
@@ -68,16 +73,18 @@
     
         <div class="col-xs-4">
 
-            <h3>Informações de Pagamenot</h3>
+            <h3>Informações de Pagamento</h3>
+
+            <input type="hidden" name="total_amount" value="<?=$_SESSION['total_amount']?>">
             
             <div class="form-group">
                 <label for="">Titular do cartão</label>
-                <input type="text" name="cartao_titular" class="form-control" pattern="\d+">
+                <input type="text" name="cartao_titular" class="form-control" pattern="\d+" value="Fulano Ciclano">
             </div>
 
             <div class="form-group">
                 <label for="">CPF do titular</label>
-                <input type="text" name="cartao_cpf" class="form-control" pattern="\d+">
+                <input type="text" name="cartao_cpf" class="form-control" pattern="\d+" value="45061400879">
             </div>
 
             <div class="form-group">
@@ -87,19 +94,19 @@
 
             <div class="form-group">
                 <label for="">Cod. cartão</label>
-                <input type="text" name="cartao_cvv" class="form-control" pattern="\d+">
+                <input type="text" name="cartao_cvv" class="form-control" pattern="\d+" value="123">
             </div>
 
             <div class="clearfix">
                 <div class="form-group pull-left" style="width: 60px">
                     <label for="">Validade</label>
-                    <input type="number" name="cartao_mes" max="12" min="1" step="1" class="form-control" pattern="\d{1,2}">
+                    <input type="number" name="cartao_mes" max="12" min="1" step="1" class="form-control" pattern="\d{1,2}" value="12">
                 </div>
 
                 <div class="form-group pull-left" style="width: 100px;margin-top: 1.8em;margin-left: .5em;">
                     <select name="cartao_ano" class="form-control">
                         <?php for ($i=date('Y'); $i < date('Y')+20; $i ++):?>
-                            <option value="<?=$i?>"><?=$i?></option>
+                            <option value="<?=$i?>" <?=$i==2030?'selected':''?>><?=$i?></option>
                         <?php endfor?>
                     </select>
                 </div>

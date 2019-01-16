@@ -43,8 +43,11 @@
     </div>
     <div class="amount">
         <?php if (!empty($shipping)):?>
+
+            <?php $_SESSION['total_amount'] = $tal + str_replace(',', '.', $shipping['price'])?>
+
             <h4><b>FRETE: R$ <?=$shipping['price'] . " - {$shipping['date']} dia(s)"?></b></h4>
-            <h4 class="bg-success"><b>TOTAL: R$ <?=number_format($tal + str_replace(',', '.', $shipping['price']), 2, ',', '.')?></b></h4>
+            <h4 class="bg-success"><b>TOTAL: R$ <?=number_format($_SESSION['total_amount'], 2, ',', '.')?></b></h4>
 
             <form method="POST" action="<?=BASE_URL?>cart/payment_redirect" class="form-finalizar">
                 <div class="form-group">
