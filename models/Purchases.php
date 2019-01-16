@@ -6,8 +6,7 @@ class Purchases extends model
     {
         $sql = 'INSERT INTO purchases 
         (id_user, total_amount, payment_type) 
-        VALUES 
-        (:uid, :total, :payment_type)';
+        VALUES (?, ?, ?)';
 
         $sql = $this->db->prepare($sql);
         $sql->execute([$uid, $total, $payment_type]);
@@ -18,8 +17,7 @@ class Purchases extends model
     {
         $sql = 'INSERT INTO purchases_products 
         (id_purchase, id_product, quantity, product_price) 
-        VALUES 
-        (:id_purchase, :id_product, :qt, :price)';
+        VALUES (?, ?, ?, ?)';
 
         $sql = $this->db->prepare($sql);
         $sql->execute([$id_purchase, $id_product, $qt, $price]);
