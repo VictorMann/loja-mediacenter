@@ -91,8 +91,7 @@ class psckttransparenteController extends controller
             $uid = $users->id;
         }
 
-        $total = $cart->getSubTotal() + $_SESSION['shipping']['price'];
-        $id_purchases = $purchases->create($uid, $total, 'psckttransparente');
+        $id_purchases = $purchases->create($uid, $_SESSION['total_com_frete'], 'psckttransparente');
 
         foreach ($cart->all() as $item)
         {
@@ -115,10 +114,11 @@ class psckttransparenteController extends controller
                 floatval($item['price'])
             );
         }
+        // adição do frete ao valor
+        $creditCard->setShipping()->setCost()->withParameters($_SESSION['shipping']['price']);
 
         // obtem o IP
         $ip = strlen($_SERVER['REMOTE_ADDR']) < 7 ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
-
         $creditCard->setSender()->setName($name);
         $creditCard->setSender()->setEmail($email);
         $creditCard->setSender()->setDocument()->withParameters('CPF', $cartao_cpf);
@@ -127,7 +127,7 @@ class psckttransparenteController extends controller
         $creditCard->setSender()->setPhone()->withParameters($ddd, $phone);
         $creditCard->setSender()->setHash($id);
         $creditCard->setSender()->setIp($ip);
-
+        
         $creditCard->setShipping()->setAddress()->withParameters(
             $endereco,
             $numero,

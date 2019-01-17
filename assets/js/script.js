@@ -64,6 +64,8 @@ $('.cart-control-qt')
 		
 		talCart -= valItem * dados.qt_last;
 		talCart += valItem * dados.qt_now;
+
+		window.localStorage.setItem('total_sem_frete', talCart.toFixed(2));
 		
 		talCart = numeroParaTextoMoeda(talCart);
 		$('.cart-total').text(talCart);

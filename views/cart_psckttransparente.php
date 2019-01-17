@@ -75,8 +75,6 @@
 
             <h3>Informações de Pagamento</h3>
 
-            <input type="hidden" name="total_amount" value="<?=$_SESSION['total_amount']?>">
-            
             <div class="form-group">
                 <label for="">Titular do cartão</label>
                 <input type="text" name="cartao_titular" class="form-control" pattern="\d+" value="Fulano Ciclano">

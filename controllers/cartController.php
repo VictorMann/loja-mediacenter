@@ -30,6 +30,7 @@ class cartController extends controller
             $cep = (int) $_POST['cep'];
             $dados['shipping'] = $cart->shippingCalculate($cep);
             $_SESSION['shipping'] = $dados['shipping'];
+            $_SESSION['total_com_frete'] = $_SESSION['total_sem_frete'] + $_SESSION['shipping']['price'];
         }
         elseif (!empty($_SESSION['shipping']))
         {

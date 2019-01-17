@@ -99,9 +99,9 @@ window.addEventListener('load', event => {
                     
                     // parcelas
                     PagSeguroDirectPayment.getInstallments({
-                        amount: $('[name=total_amount]').val(), // total da compra
-                        brand: window.cardBrand,                // bandeira card
-                        // maxInstallmentNoInterest: 10,        // 10x sem juros SEM A PROP FICA COM JUROS EM TODAS PARC
+                        amount: localStorage.getItem('total_com_frete'), // total da compra
+                        brand: window.cardBrand,                         // bandeira card
+                        // maxInstallmentNoInterest: 10,                 // 10x sem juros SEM A PROP FICA COM JUROS EM TODAS PARC
                         success: r => {
                             // parcelas
                             let parc = r.installments[window.cardBrand],
@@ -109,7 +109,7 @@ window.addEventListener('load', event => {
                                 optionsValues = document.createDocumentFragment();
                             parc.forEach(p => {
                                 let op = document.createElement('option');
-                                op.value = `${p.quantity};${parseFloat(p.installmentAmount)};${p.interestFree}`;
+                                op.value = `${p.quantity};${p.installmentAmount};${p.interestFree}`;
                                 op.innerText = `${p.quantity}x de R$ ${p.installmentAmount}`;
                                 optionsValues.appendChild(op);
                             });

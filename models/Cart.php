@@ -7,6 +7,7 @@ class Cart extends model
         $dados = [];
         $products = new Products;
         $cart = $_SESSION['cart'];
+        $_SESSION['total_sem_frete'] = 0;
 
         foreach ($cart as $id => $qt)
         {
@@ -25,7 +26,11 @@ class Cart extends model
                 'length' => $p['length'],
                 'diameter' => $p['diameter']
             ];
+
+            $_SESSION['total_sem_frete'] += $qt * $p['price'];
         }
+
+        $_SESSION['total_sem_frete'] = number_format($_SESSION['total_sem_frete'], 2);
 
         return $dados;
     }
@@ -106,8 +111,8 @@ class Cart extends model
         curl_close($ch);
 
         $r = simplexml_load_string($r);
-
-        $dados['price'] = current($r->cServico->Valor);
+        $val = number_format( (float) str_replace(',', '.', current($r->cServico->Valor)), 2);
+        $dados['price'] = $val;
         $dados['date']  = current($r->cServico->PrazoEntrega);
         
         return $dados;
