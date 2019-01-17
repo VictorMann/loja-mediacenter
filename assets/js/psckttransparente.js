@@ -69,8 +69,10 @@ window.addEventListener('load', event => {
                         dataType: 'json',
                         success: function(r) {
                             if (r.error) alert(r.msg);
-                            console.log(r);
-
+                            else {
+                                // sucesso! redireciona
+                                location.href = BASE_URL + 'psckttransparente/obrigado';
+                            }
                         },
                         error: r => console.log(r) 
                     })

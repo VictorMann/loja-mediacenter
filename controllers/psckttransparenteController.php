@@ -157,8 +157,13 @@ class psckttransparenteController extends controller
         
         $creditCard->setMode('DEFAULT');
 
+        // dizer ao PAGSEGURO qual url para ele requisitar
+        // qnd houver mudaças de estado
+        $creditCard->setNotificationUrl(BASE_URL .'psckttransparente/notification');
+
         try {
             $result = $creditCard->register(
+                // credenciais
                 \PagSeguro\Configuration\Configure::getAccountCredentials()
             );
 
@@ -169,5 +174,60 @@ class psckttransparenteController extends controller
             echo json_encode(['error' => true, 'msg' => $e->getMessage()]);
             exit;
         }
+    }
+
+    public function notification()
+    {
+        try {
+            // o proprio pagseguro verifica os dados que ele envia para as notificações
+            if (\PagSeguro\Helpers\Xhr::hasPost())
+            {
+                $purchases = new Purchases;
+
+                $r = \PagSeguro\Services\Transactions\Notification::check(
+                    // credenciais
+                    \PagSeguro\Configuration\Configure::getAccountCredentials()
+                );
+
+                // qual item houve a mudança de estado
+                // nossa referencia que mandamos id_purchases
+                $ref = $r->getReference();
+                // status
+                // 1 = aguardando pagamento
+                // 2 = Em analise
+                // 3 = Paga
+                // 4 = Disponível - aprovação para o dinhero na sua conta
+                // 5 = Em disputa - usuario entra em contato com o pagseguro, não recebeu o que comprou 
+                // 6 = Devolução do dinheiro - ref a disputa
+                // 7 = Cancelado
+                // 8 = Debitado - compro ganho a disputa e o dinheiro já esta na conta do cliente
+                // 9 = Retenção Temporária - chargeback - cartao invalido, procom
+                $status = $r->getStatus();
+
+                if ($status == 3) // pago
+                {     
+                    $purchases->setPaid($ref);
+                }
+                else if ($status == 7) // cancelada
+                {
+                    $purchases->setCancelled($ref);
+                }
+
+            }
+
+        } catch (Exception $e) {
+            echo 'ERROR: '. $e->getMessage();
+        }
+    }
+
+    // Compra realizada 
+    public function obrigado()
+    {
+        // limpa o carrinho
+        unset($_SESSION['cart']);
+        
+        $dados = Store::getTemplateData();
+
+        $this->loadTemplate('psckttransparente_obrigado', $dados);
     }
 }

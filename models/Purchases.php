@@ -23,4 +23,24 @@ class Purchases extends model
         $sql->execute([$id_purchase, $id_product, $qt, $price]);
         return $this->db->lastInsertId();
     }
+
+    public function setPaid($id)
+    {
+        $sql = 'UPDATE purchases SET payment_status = :status WHERE id = :id';
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':status', 2); // status do nosso sistema para PAGO
+        $sql->bindValue(':id', $id);
+        $sql->execute();
+    }
+
+    public function setCancelled($id)
+    {
+        $sql = 'UPDATE purchases SET payment_status = :status WHERE id = :id';
+        $sql = $this->db->prepare($sql);
+        $sql->bindValue(':status', 3); // status do nosso sistema para CANCELADA
+        $sql->bindValue(':id', $id);
+        $sql->execute();
+    }
+
+    
 }
