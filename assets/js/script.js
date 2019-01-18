@@ -66,6 +66,19 @@ $('.cart-control-qt')
 		talCart += valItem * dados.qt_now;
 
 		window.localStorage.setItem('total_sem_frete', talCart.toFixed(2));
+
+		let form = new FormData();
+		form.append('valor', window.localStorage.getItem('total_sem_frete'));
+
+		fetch('cart/ajustartotal', {
+			method: 'POST', 
+			body: form
+		})
+		.then(res => res.ok ? res.text() : Promise.reject(res.statusText))
+		.then(valor => {
+			console.log(valor);
+			$('.total-com-frete').text( numeroParaTextoMoeda(valor) );
+		});
 		
 		talCart = numeroParaTextoMoeda(talCart);
 		$('.cart-total').text(talCart);
@@ -80,6 +93,7 @@ function textoMoedaParaNumero(texto) {
 	return +texto.replace(/[r$ .]/ig, '').replace(',', '.');
 }
 function numeroParaTextoMoeda(n) {
+	n = Number(n);
 	n = toArray(n.toFixed(2).replace('.',',')).reverse();
 	let pos = 3 + n.indexOf(',');
 	for (;pos < n.length; pos += 3) {

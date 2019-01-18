@@ -37,7 +37,6 @@ window.addEventListener('load', event => {
                 expirationMonth: +v_mes,
                 expirationYear: +v_ano,
                 success: r => {
-                    console.log(r);
                     window.cardToken = r.card.token;
 
                     $.ajax({
@@ -67,17 +66,12 @@ window.addEventListener('load', event => {
                             cartao_token: window.cardToken
                         },
                         dataType: 'json',
-                        success: function(r) {
-                            if (r.error) alert(r.msg);
-                            else {
-                                // sucesso! redireciona
-                                location.href = BASE_URL + 'psckttransparente/obrigado';
-                            }
+                        success: r => {
+                            // sucesso! redireciona
+                            window.location = BASE_URL + 'psckttransparente/obrigado';
                         },
-                        error: r => console.log(r) 
+                        error: r => console.log(r)
                     })
-
-
                 },
                 error: r => console.log(r),
                 complete: r => console.log('complete token card')

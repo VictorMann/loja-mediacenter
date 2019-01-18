@@ -26,7 +26,7 @@
         </tr>
         <tr class="active tal">
             <td colspan="3">Sub Total</td>
-            <td class="cart-total">R$ <?=number_format($_SESSION['total_sem_frete'], 2, ',', '.')?></td>
+            <td class="cart-total">R$ <?=$_SESSION['total_sem_frete']?></td>
         </tr>
     </tbody>
 </table>
@@ -43,7 +43,7 @@
         <?php if (!empty($shipping)):?>
 
             <h4><b>FRETE: R$ <?=$shipping['price'] . " - {$shipping['date']} dia(s)"?></b></h4>
-            <h4 class="bg-success"><b>TOTAL: R$ <?=number_format($_SESSION['total_com_frete'], 2, ',', '.')?></b></h4>
+            <h4 class="bg-success"><b>TOTAL: <span class="total-com-frete">R$ <?=$_SESSION['total_com_frete']?></span></b></h4>
 
             <form method="POST" action="<?=BASE_URL?>cart/payment_redirect" class="form-finalizar">
                 <div class="form-group">

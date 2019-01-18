@@ -25,19 +25,23 @@ class cartController extends controller
         $dados['list'] = $cart->all();
         $dados['shipping'] = null;
 
+        if (empty($_SESSION['shipping']))
+        {
+            $_SESSION['shipping'] = ['price' => 0, 'date' => 0];
+        }
+
         if (!empty($_POST['cep']))
         {
             $cep = (int) $_POST['cep'];
             $dados['shipping'] = $cart->shippingCalculate($cep);
             $_SESSION['shipping'] = $dados['shipping'];
-            $_SESSION['total_com_frete'] = $_SESSION['total_sem_frete'] + $_SESSION['shipping']['price'];
         }
         elseif (!empty($_SESSION['shipping']))
         {
             $dados['shipping'] = $_SESSION['shipping'];
         }
         
-        
+        $_SESSION['total_com_frete'] = $_SESSION['total_sem_frete'] + $_SESSION['shipping']['price'];
 
 
         $this->loadTemplate('cart', $dados);
@@ -62,6 +66,7 @@ class cartController extends controller
 
     public function del($id)
     {
+        $this->ajustartotal($id);
         unset($_SESSION['cart'][$id]);
         header('Location: '. BASE_URL . 'cart');
         exit;
@@ -83,6 +88,24 @@ class cartController extends controller
         $_SESSION['cart'][$id] = $qt;
         
         echo json_encode($o);
+    }
+
+    public function ajustartotal($id = NULL)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            $_SESSION['total_sem_frete'] = (float) $_POST['valor'];
+            echo $_SESSION['total_com_frete'] = $_SESSION['total_sem_frete'] + $_SESSION['shipping']['price'];
+        }
+
+        if ($id)
+        {
+            $p = new Products;
+            $p = $p->get($id);
+
+            $_SESSION['total_sem_frete'] -= (float) $p['price'];
+            $_SESSION['total_com_frete'] = $_SESSION['total_sem_frete'] + $_SESSION['shipping']['price'];
+        }
     }
 
     public function payment_redirect()
