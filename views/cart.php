@@ -50,6 +50,7 @@
                     <label for="payment_type">Meio de pagamento</label>
                     <select name="payment_type" class="form-control">
                         <option value="checkout_transparent">Pagseguro Checkoout transparente</option>
+                        <option value="mp">Mercado Pago</option>
                     </select>
                 </div>
                 <br>

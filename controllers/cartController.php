@@ -123,6 +123,9 @@ class cartController extends controller
             case 'checkout_transparent':
                 header('Location:'. BASE_URL .'psckttransparente');
             break;
+            case 'mp':
+                header('Location:'. BASE_URL .'mp');
+            break;
         }
 
         exit;
