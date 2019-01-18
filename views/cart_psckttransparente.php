@@ -8,7 +8,7 @@
 
             <div class="form-group">
                 <label for="">Nome</label>
-                <input type="text" name="name" class="form-control" value="Victor Carlos Mann">
+                <input type="text" name="name" class="form-control" value="Ciclano Pagante">
             </div>
 
             <div class="form-group">
@@ -18,17 +18,17 @@
 
             <div class="form-group">
                 <label for="">CPF</label>
-                <input type="text" name="cpf" class="form-control" value="45061400879">
+                <input type="text" name="cpf" class="form-control" value="<?=PAGSEGURO_USER_CPF?>">
             </div>
 
             <div class="form-group">
                 <label for="">E-mail</label>
-                <input type="text" name="email" class="form-control" value="c08477041629417892174@sandbox.pagseguro.com.br">
+                <input type="text" name="email" class="form-control" value="<?=PAGSEGURO_USER_EMAIL?>">
             </div>
 
             <div class="form-group">
                 <label for="">Senha</label>
-                <input type="password" name="password" class="form-control" value="14e8UT6D62M5HM0c">
+                <input type="password" name="password" class="form-control" value="<?=PAGSEGURO_USER_SENHA?>">
             </div>
         </div>
         <div class="col-xs-4">
@@ -37,17 +37,17 @@
 
             <div class="form-group">
                 <label for="">CEP</label>
-                <input type="text" name="cep" class="form-control" value="07145000">
+                <input type="text" name="cep" class="form-control" value="07145020">
             </div>
 
             <div class="form-group">
                 <label for="">Endereço</label>
-                <input type="text" name="endereco" class="form-control" value="Est Zirconio">
+                <input type="text" name="endereco" class="form-control" value="rua Comodor">
             </div>
 
             <div class="form-group">
                 <label for="">Número</label>
-                <input type="text" name="numero" class="form-control" value="155">
+                <input type="text" name="numero" class="form-control" value="300">
             </div>
 
             <div class="form-group">
@@ -57,12 +57,12 @@
 
             <div class="form-group">
                 <label for="">Bairro</label>
-                <input type="text" name="bairro" class="form-control" value="Pq. Primavera">
+                <input type="text" name="bairro" class="form-control" value="Pq. Lisboa">
             </div>
 
             <div class="form-group">
                 <label for="">Cidade</label>
-                <input type="text" name="cidade" class="form-control" value="Guarulhos">
+                <input type="text" name="cidade" class="form-control" value="Terezinha">
             </div>
 
             <div class="form-group">
@@ -82,7 +82,7 @@
 
             <div class="form-group">
                 <label for="">CPF do titular</label>
-                <input type="text" name="cartao_cpf" class="form-control" pattern="\d+" value="45061400879">
+                <input type="text" name="cartao_cpf" class="form-control" pattern="\d+" value="<?=PAGSEGURO_USER_CPF?>">
             </div>
 
             <div class="form-group">
