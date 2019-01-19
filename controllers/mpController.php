@@ -62,12 +62,64 @@ class mpController extends controller
                 $id_purchases = $purchases->create($uid, $_SESSION['total_com_frete'], 'mp');
 
                 // inserindo os intens na compra
-                foreach ($cart->all() as $item)
+                $list = $cart->all();
+                foreach ($list as $item)
                 {
                     $purchases->addItem($id_purchases, $item['id'], $item['qt'], $item['price']);
                 }
 
                 $mp = new MP(MERCADOPADO_ID, MERCADOPADO_KEY);
+
+                // dados da compra
+                $data = [
+                    'items' => [],
+                    'shipments' => [ // dados de array, caso n tenha desnecessario
+                        'mode' => 'custom', // tipo de frete
+                        'cost' => floatval($_SESSION['shipping']['price']),
+                        'receiver_address' => [ // nao é obrigatório
+                            'zip_code' => $cep
+                        ]
+                    ],
+                    'back_urls' => [ // bapinas a serem redirecionadas
+                        'success' => BASE_URL .'mp/obrigadoaprovado',   // pagamento sucesso
+                        'pending' => BASE_URL .'mp/obrigadoanalise',    // pagamento em analise
+                        'failure' => BASE_URL .'mp/obrigadocancelado'   // falha no pagamento
+                    ],
+                    // mudança de estado no mp, te mando um aviso
+                    'notification_url' => BASE_URL . 'mp',
+                    // qnd terminar o pagamento o q vc quer q aconteça
+                    // que retonar para seu site, nas situações success, pending, failure
+                    // all : todas retornam
+                    // approved : apenas aprovadas
+                    'auto_return' => 'all', // approved | all
+                    'external_reference' => $id_purchases
+                ];
+
+                foreach ($list as $item)
+                {
+                    $data['items'][] = [
+                        'title' => $item['name'],
+                        'quantity' => $item['qt'],
+                        'currency_id' => 'BRL',
+                        'unit_price' => floatval($item['price'])
+                    ];
+                }
+
+                // link para redirecionar
+                $link = $mp->create_preference($data);
+
+                // alanisar o retorno
+                // echo '<pre>';
+                // print_r($link);
+                // exit;
+
+                // venda oficial - ambiente de produção
+                // $link = $link['response']['init_point'];
+                // sandbox - ambiente de teste
+                $link = $link['response']['sandbox_init_point'];
+
+                header('Location: '. $link);
+                exit;               
             }
         }
 
