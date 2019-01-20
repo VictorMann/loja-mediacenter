@@ -86,7 +86,7 @@ class mpController extends controller
                         'failure' => BASE_URL .'mp/obrigadocancelado'   // falha no pagamento
                     ],
                     // mudança de estado no mp, te mando um aviso
-                    'notification_url' => BASE_URL . 'mp',
+                    'notification_url' => BASE_URL . 'mp/notification',
                     // qnd terminar o pagamento o q vc quer q aconteça
                     // que retonar para seu site, nas situações success, pending, failure
                     // all : todas retornam
@@ -113,16 +113,64 @@ class mpController extends controller
                 // print_r($link);
                 // exit;
 
-                // venda oficial - ambiente de produção
-                // $link = $link['response']['init_point'];
-                // sandbox - ambiente de teste
-                $link = $link['response']['sandbox_init_point'];
+                if ($link['status'] == 201)
+                {
+                    // $link['response']['init_point']; - venda oficial ambiente de produção
+                    // $link['response']['sandbox_init_point']; - ambiente de teste muito instável
+                    $link = $link['response']['init_point'];
 
-                header('Location: '. $link);
-                exit;               
+                    header('Location: '. $link);
+                    exit;  
+                }
             }
         }
 
         $this->loadTemplate('cart_mp', $dados);
+    }
+
+    public function notification()
+    {
+        
+        $mp = new MP(MERCADOPADO_ID, MERCADOPADO_KEY);
+        $purchases = new Purchases;
+
+        // para dizer que não é ambiente de teste
+        $mp->sandbox_mode(false);
+
+        // pega as informações
+        $info = $mp->get_payment_info($_GET['id']);
+
+        // verifica se deu tudo OK
+        if ($info['status'] == 200)
+        {
+            // pega os dados
+            $dados = $info['response'];
+
+            // referencia do produto id_purchases
+            $ref = $dados['collection']['external_reference'];
+            // status
+            // - pending : Em análise
+            // - approved : Aprovado
+            // - in_procress : Em revisão
+            // - in_mediation : Em processo de disputa
+            // - rejected : Foi rejeitado
+            // - cancelled : Foi cancelado
+            // - refunded : Reembolsado
+            // - charged_back : Chargeback
+            $status = $dados['collection']['status'];
+
+            if ($status == 'approved') { // caso aprovado
+                $purchases->setPaid($ref);
+            }
+            else if ($status == 'cancelled') { // caso cancelado
+                $purchases->setCancelled($ref);
+            }
+
+            // demais casos...
+
+            // gera um log com os dados
+            file_put_contents('logs/mplog.txt', print_r($dados, true));
+        }
+
     }
 }
