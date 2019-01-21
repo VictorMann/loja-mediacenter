@@ -126,6 +126,9 @@ class cartController extends controller
             case 'mp':
                 header('Location:'. BASE_URL .'mp');
             break;
+            case 'paypal':
+                header('Location:'. BASE_URL .'paypal');
+            break;
         }
 
         exit;

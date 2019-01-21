@@ -51,6 +51,7 @@
                     <select name="payment_type" class="form-control">
                         <option value="checkout_transparent">Pagseguro Checkoout transparente</option>
                         <option value="mp">Mercado Pago</option>
+                        <option value="paypal">Paypal</option>
                     </select>
                 </div>
                 <br>
