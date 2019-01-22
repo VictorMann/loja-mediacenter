@@ -5,3 +5,6 @@ MERCADO PAGO
 
 PAYPAL
 > composer require "paypal/rest-api-sdk-php:*"
+
+PAYPAL
+> composer require gerencianet/gerencianet-sdk-php
