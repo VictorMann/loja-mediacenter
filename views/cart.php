@@ -52,6 +52,7 @@
                         <option value="checkout_transparent">Pagseguro Checkoout transparente</option>
                         <option value="mp">Mercado Pago</option>
                         <option value="paypal">Paypal</option>
+                        <option value="boleto">Boleto</option>
                     </select>
                 </div>
                 <br>
