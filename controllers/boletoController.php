@@ -59,7 +59,7 @@ class boletoController extends controller
             if ($uid)
             {
                 // criando a compra
-                $id_purchases = $purchases->create($uid, $_SESSION['total_com_frete'], 'paypal');
+                $id_purchases = $purchases->create($uid, $_SESSION['total_com_frete'], 'boleto');
 
                 // inserindo os intens na compra
                 $list = $cart->all();
@@ -69,10 +69,111 @@ class boletoController extends controller
                 }
 
                 // Integração com Boleto
+
+                // definindo lista dos itens 
+                $items = [];
+                foreach ($list as $item)
+                {
+                    $items[] = [
+                        'name' => $item['name'],
+                        'amount' => $item['qt'],
+                        'value' => $item['price'] * 100 // em centavos
+                    ];
+                }
+
+                $metadata = [
+                    'custom_id' => $id_purchases,
+                    'notification_url' => BASE_URL. 'boleto/notification' // req ao ter mudança de estado
+                ];
+
+                $shipping = [
+                    [
+                        'name' => 'FRETE',
+                        'value' => $_SESSION['shipping']['price'] * 100 // em centavos
+                    ]
+                ];
+
+                $body = [
+                    'metadata' => $metadata,
+                    'items' => $items,
+                    'shippings' => $shipping
+                ];
+
+                try {
+
+                    $api = new \Gerencianet\Gerencianet([
+                        'client_id' => GERENCIANET_ID,
+                        'client_secret' => GERENCIANET_SECRET,
+                        'sandbox' => GERENCIANET_SANDBOX
+                    ]);
+
+                    $charge = $api->createCharge([], $body);
+
+                    // valida
+                    if ($charge['code'] == 200) {
+                        $charge_id = $charge['data']['charge_id'];
+
+                        $params = [
+                            'id' => $charge_id
+                        ];
+
+                        $customer = [
+                            'name' => $name,
+                            'cpf' => $cpf,
+                            'phone_number' => $phone
+                        ];
+
+                        $bankingBillet = [
+                            'expire_at' => date('Y-m-d', strtotime('+4 days')),
+                            'customer' => $customer
+                        ];
+
+                        $payment = [
+                            'banking_billet' => $bankingBillet
+                        ];
+
+                        $body = [
+                            'payment' => $payment
+                        ];
+
+                        try {
+
+                            $charge = $api->payCharge($params, $body);
+
+                            if ($charge['code'] == 200) {
+
+                                // link do boleto
+                                $link = $charge['data']['link'];
+                                // guardar link do boleto
+                                $purchases->updateBilletUrl($id_purchases, $link);
+                                // remove do carrinho
+                                unset($_SESSION['cart']);
+                                // redireciona para o boleto
+                                header('Location: '. $link);
+                                exit;
+                            }
+
+                        } catch (Exception $e) {
+                            echo 'ERRO ';
+                            print_r($e->getMessage());
+                            exit;
+                        }
+                    }
+
+                } catch (Exception $e) {
+                    echo 'ERRO ';
+                    print_r($e->getMessage());
+                    exit;
+                }
                 
             }
         }
 
         $this->loadTemplate('cart_boleto', $dados);
+    }
+
+    public function notification()
+    {
+
     }
 }
