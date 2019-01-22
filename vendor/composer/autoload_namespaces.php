@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'PayPal' => array($vendorDir . '/paypal/rest-api-sdk-php/lib'),
+    'Gerencianet' => array($vendorDir . '/gerencianet/gerencianet-sdk-php/src'),
 );

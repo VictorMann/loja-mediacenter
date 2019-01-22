@@ -2,6 +2,7 @@
     "require": {
         "pagseguro/pagseguro-php-sdk": "^4.2",
         "mercadopago/sdk": "0.5.2",
-        "paypal/rest-api-sdk-php": "*"
+        "paypal/rest-api-sdk-php": "*",
+        "gerencianet/gerencianet-sdk-php": "^2.3"
     }
 }
