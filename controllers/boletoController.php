@@ -174,6 +174,39 @@ class boletoController extends controller
 
     public function notification()
     {
+        $token = $_POST['notification'];
 
+        $params = [
+            'token' => $token
+        ];
+
+        try {
+            
+            $api = new \Gerencianet\Gerencianet([
+                'client_id' => GERENCIANET_ID,
+                'client_secret' => GERENCIANET_SECRET,
+                'sandbox' => GERENCIANET_SANDBOX
+            ]);
+
+            $c = $api->getNotification($params, []);
+
+            $ultimo = end($c['data']);
+
+            $custom_id = $ultimo['custom_id'];
+
+            $status = $ultimo['status']['current'];
+
+            if ($status == 'paid') // pago
+            {
+                $purchases = new Purchases;
+                $purchases->setPaid($custom_id);
+            }
+
+
+        } catch (Exception $e) {
+            echo 'ERRO ';
+            print_r($e->getMessage());
+            exit;
+        }
     }
 }
