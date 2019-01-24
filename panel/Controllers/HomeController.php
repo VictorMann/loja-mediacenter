@@ -2,14 +2,27 @@
 namespace Controllers;
 
 use Core\Controller;
-use Models\Exemplo;
+use Models\Users;
 
-class HomeController extends Controller {
+class HomeController extends Controller
+{
+	private $user;
 
-	public function index() {
+	public function __construct()
+	{
+
+		$this->user = new Users;
+
+		if (!$this->user->isLogged())
+		{
+			header('Location: '. BASE_URL .'login');
+			exit;
+		}
+	}
+
+	public function index()
+	{
 		$array = array();
-
-		$exemplo = new Exemplo();
 
 		$this->loadTemplate('home', $array);
 	}
