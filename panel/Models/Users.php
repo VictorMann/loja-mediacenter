@@ -28,4 +28,24 @@ class Users extends Model
     {
         return $this->uid;
     }
+
+    public function validateLogin($email, $password)
+    {
+        $sql = 'SELECT id FROM users WHERE email = ? AND password = ? AND admin = 1 LIMIT 1';
+        $sql = $this->db->prepare($sql);
+        $sql->execute([$email, md5($password)]);
+
+        if ($sql->rowCount() > 0)
+        {
+            $id = $sql->fetch()['id'];
+            $token = md5(uniqid(rand()));
+
+            $sql = 'UPDATE users SET token = ? WHERE id = ?';
+            $sql = $this->db->prepare($sql);
+            $sql->execute([$token, $id]);
+
+            $_SESSION['token'] = $token;
+            return true;
+        }
+    }
 }
