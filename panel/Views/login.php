@@ -34,6 +34,11 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
+    <?php if (isset($error)): ?>
+      <div class="alert alert-danger">
+        <?=$error?>
+      </div>
+    <?php endif?>
     <p class="login-box-msg">Login painel administrativo</p>
 
     <form action="<?=BASE_URL?>login/index_action" method="POST">

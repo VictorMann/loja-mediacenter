@@ -10,6 +10,12 @@ class LoginController extends Controller
     {
 		$array = array();
 
+		if (!empty($_SESSION['error']['login']))
+		{
+			$array['error'] = $_SESSION['error']['login'];
+			unset($_SESSION['error']['login']);
+		}
+
 		$this->loadView('login', $array);
 	}
 
@@ -26,7 +32,8 @@ class LoginController extends Controller
 				header('Location:'. BASE_URL);
 				exit;
 			}
-			else ;
+			
+			$_SESSION['error']['login'] = 'Email ou senha inválido';
 		}
 
 		header('Location:' . BASE_URL .'login');
