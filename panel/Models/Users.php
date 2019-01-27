@@ -27,9 +27,18 @@ class Users extends Model
                 $this->uid = $d['id'];
                 $this->permissions = $p->get($d['id_permission']);
 
-                
-
                 return $this->uid;
+            }
+        }
+    }
+
+    public function hasPermission($permission_slug)
+    {
+        if ($this->permissions)
+        {
+            foreach ($this->permissions as $i => $v)
+            {
+                if ($permission_slug == $v['slug']) return true;
             }
         }
     }
