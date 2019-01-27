@@ -24,6 +24,8 @@ class HomeController extends Controller
 	{
 		$array = array();
 
+		$array['user'] = $this->user;
+
 		$this->loadTemplate('home', $array);
 	}
 
