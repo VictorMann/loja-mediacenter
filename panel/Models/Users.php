@@ -6,6 +6,7 @@ use \Core\Model;
 class Users extends Model
 {
     private $uid;
+    private $permissions;
 
     public function isLogged()
     {
@@ -13,13 +14,22 @@ class Users extends Model
         {
             $token = $_SESSION['token'];
 
-            $sql = 'SELECT id FROM users WHERE token = ?';
+            $sql = 'SELECT id, id_permission FROM users WHERE token = ?';
             $sql = $this->db->prepare($sql);
             $sql->execute([$token]);
 
             if ($sql->rowCount() > 0)
             {
-                return $this->uid = $sql->fetch()['id'];
+                $p = new Permissions;
+
+                $d = $sql->fetch(\PDO::FETCH_ASSOC);
+
+                $this->uid = $d['id'];
+                $this->permissions = $p->get($d['id_permission']);
+
+                
+
+                return $this->uid;
             }
         }
     }
