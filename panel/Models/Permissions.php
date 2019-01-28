@@ -21,5 +21,13 @@ class Permissions extends Model
             while ($row = $sql->fetch(\PDO::FETCH_ASSOC)) $dados[] = $row;
             return $dados;
         }
-	}
+    }
+    
+    public function getAllGroups()
+    {
+        $sql = 'SELECT up.*, (SELECT COUNT(u.id) FROM users u WHERE u.id_permission = up.id) total_users
+        FROM users_permissions_group up';
+        $sql = $this->db->query($sql);
+        return $sql->rowCount() ? $sql->fetchAll(\PDO::FETCH_ASSOC) : null;
+    }
 }
