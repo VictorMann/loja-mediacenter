@@ -42,5 +42,12 @@
         </div>
     </div>
     
+    <?php if (!empty($_SESSION['mensagem'])):?>
+        <div class="mensagem">
+            <div class="alert <?=$_SESSION['mensagem']['class']?>" style="opacity: .8">
+                <?=$_SESSION['mensagem']['text']?>
+            </div>
+        </div>
+    <?php unset($_SESSION['mensagem']); endif;?>
 
 </section>
