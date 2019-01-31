@@ -30,4 +30,49 @@ class Permissions extends Model
         $sql = $this->db->query($sql);
         return $sql->rowCount() ? $sql->fetchAll(\PDO::FETCH_ASSOC) : null;
     }
+
+    public function delete($id)
+    {
+        $sql = 'SELECT 1 FROM users WHERE id_permission = ? LIMIT 1';
+        $sql = $this->db->prepare($sql);
+        $sql->execute([$id]);
+
+        // Caso NÃO haja usuários com essa permissão pode remove-la
+        if ( ! $sql->rowCount() )
+        {
+            try
+            {
+                // inicia transação
+                $this->db->beginTransaction();
+    
+                // remove de permissions_links
+                $sql = 'DELETE FROM permissions_links WHERE id_user_permission = ?';
+                $sql = $this->db->prepare($sql);
+                $sql->execute([$id]);
+                
+                // remove de users_permissions_group
+                $sql = 'DELETE FROM users_permissions_group WHERE id = ?';
+                $sql = $this->db->prepare($sql);
+                $sql->execute([$id]);
+                
+                // concretiza operação
+                $this->db->commit();
+                
+                $_SESSION['mensagem']['class'] = 'alert-success';
+                $_SESSION['mensagem']['text']  = 'Remoção realizada';
+                
+                return true;
+            }
+            catch (Exception $e)
+            {
+                // desfaz operação
+                $this->db->rollback();
+
+                $_SESSION['mensagem']['class'] = 'alert-danger';
+                $_SESSION['mensagem']['text']  = 'Não foi possível realizar a operação. Tente em instantes...';
+
+                return false;
+            }
+        }
+    }
 }

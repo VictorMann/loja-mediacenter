@@ -36,9 +36,18 @@ class PermissionsController extends Controller
         $array['user'] = $this->user;
         $array['list'] = $p->getAllGroups();
 
-        echo '<pre>';
-        print_r($array['list']);exit;
+        // echo '<pre>';
+        // print_r($array['list']);exit;
         
         $this->loadTemplate('permissions', $array);
-	}
+    }
+    
+    public function del($id)
+    {
+        $p = new Permissions;
+        $p->delete($id);
+
+        header('Location:'. BASE_URL .'permissions');
+        exit;
+    }
 }
