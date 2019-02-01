@@ -2,6 +2,7 @@
 namespace Models;
 
 use \Core\Model;
+use PDO;
 
 class Permissions extends Model
 {
@@ -29,6 +30,40 @@ class Permissions extends Model
         FROM users_permissions_group up';
         $sql = $this->db->query($sql);
         return $sql->rowCount() ? $sql->fetchAll(\PDO::FETCH_ASSOC) : null;
+    }
+
+    public function getAllItems()
+    {
+        $sql = 'SELECT * FROM permissions_items';
+        $sql = $this->db->query($sql);
+        return $sql->rowCount() ? $sql->fetchAll(PDO::FETCH_ASSOC) : null;
+    }
+
+    public function addGroup($name)
+    {
+        $sql = 'INSERT INTO users_permissions_group SET name = ?';
+        $sql = $this->db->prepare($sql);
+        $sql->execute([$name]);
+        return $this->db->lastInsertId();
+    }
+
+    public function linkItemToGroup($itens = [], $id_group)
+    {
+        $this->id_group = (int) $id_group;
+
+        $itens = array_map(
+            function($item) {
+                $item = (int) $item;
+                return "({$this->id_group}, {$item})";
+            }
+            , $itens
+        );
+
+        $sql = 'INSERT INTO permissions_links 
+        (id_user_permission, id_permission_item) 
+        VALUES '. implode(',', $itens);
+
+        $this->db->exec($sql);
     }
 
     public function delete($id)
